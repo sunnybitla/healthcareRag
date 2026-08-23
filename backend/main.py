@@ -64,7 +64,7 @@ def log_event(db: Session, event_type: str, username: str, metadata: dict = None
 class RegisterRequest(BaseModel):
     username: str
     password: str
-    role: str  # "Guest", "Registered User", "Admin"
+    role: Optional[str] = "Registered User"  # Defaults to "Registered User" (Read-only docs, Dialogue history, Search)
 
 class LoginRequest(BaseModel):
     username: str
@@ -96,15 +96,14 @@ class ChatSessionResponse(BaseModel):
 # Auth Endpoints
 @app.post("/api/register", response_model=TokenResponse)
 def register(req: RegisterRequest, db: Session = Depends(get_db)):
-    if req.role not in ["Guest", "Registered User", "Admin"]:
-        raise HTTPException(status_code=400, detail="Invalid role. Must be 'Guest', 'Registered User', or 'Admin'.")
+    role = req.role if req.role in ["Guest", "Registered User", "Admin"] else "Registered User"
         
     db_user = db.query(User).filter(User.username == req.username).first()
     if db_user:
         raise HTTPException(status_code=400, detail="Username already registered.")
         
     hashed_pwd = get_password_hash(req.password)
-    new_user = User(username=req.username, password_hash=hashed_pwd, role=req.role)
+    new_user = User(username=req.username, password_hash=hashed_pwd, role=role)
     db.add(new_user)
     db.commit()
     db.refresh(new_user)

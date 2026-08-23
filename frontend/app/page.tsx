@@ -226,15 +226,15 @@ export default function Home() {
 
             {isRegister && (
               <div className="form-group" style={{ marginBottom: '1.5rem' }}>
-                <label className="form-label">Clinical Role Assignment</label>
+                <label className="form-label">Clinical Account Type</label>
                 <select 
                   className="form-select"
                   value={roleInput} 
                   onChange={(e) => setRoleInput(e.target.value as any)}
                 >
-                  <option value="Guest">Guest (Read-only query access, stateless)</option>
-                  <option value="Registered User">Registered Practitioner (Dialog history, Search)</option>
-                  <option value="Admin">Clinical System Administrator (Upload, Analytics, Full control)</option>
+                  <option value="Registered User">Standard User (Read-only guidelines, Dialogue history, Semantic search)</option>
+                  <option value="Guest">Guest (Stateless chat access, no history saving)</option>
+                  <option value="Admin">Clinical Administrator (Guideline uploads, Deletions, Analytics)</option>
                 </select>
               </div>
             )}
@@ -293,26 +293,24 @@ export default function Home() {
               </li>
             )}
             
+            <li className="nav-item">
+              <button
+                className={`nav-btn ${activeTab === 'documents' ? 'active' : ''}`}
+                onClick={() => setActiveTab('documents')}
+              >
+                {user?.role === 'Admin' ? '📁 Manage Guidelines' : '📁 Guidelines Library'}
+              </button>
+            </li>
+
             {user?.role === 'Admin' && (
-              <>
-                <li className="nav-item">
-                  <button
-                    className={`nav-btn ${activeTab === 'documents' ? 'active' : ''}`}
-                    onClick={() => setActiveTab('documents')}
-                  >
-                    📁 Manage Guidelines
-                  </button>
-                </li>
-                
-                <li className="nav-item">
-                  <button
-                    className={`nav-btn ${activeTab === 'analytics' ? 'active' : ''}`}
-                    onClick={() => setActiveTab('analytics')}
-                  >
-                    📊 System Metrics
-                  </button>
-                </li>
-              </>
+              <li className="nav-item">
+                <button
+                  className={`nav-btn ${activeTab === 'analytics' ? 'active' : ''}`}
+                  onClick={() => setActiveTab('analytics')}
+                >
+                  📊 System Metrics
+                </button>
+              </li>
             )}
           </ul>
         </div>
