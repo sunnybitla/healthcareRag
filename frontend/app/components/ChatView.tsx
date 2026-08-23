@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState, useEffect, useRef } from 'react';
+import { getApiUrl } from '../utils/api';
 
 interface Citation {
   num: number;
@@ -41,7 +42,6 @@ export default function ChatView({ token, userRole }: ChatViewProps) {
   const [selectedCitationNum, setSelectedCitationNum] = useState<number | null>(null);
 
   const messagesEndRef = useRef<HTMLDivElement>(null);
-  const backendUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000';
 
   // Fetch Session History on mount (only for Registered Users & Admins)
   useEffect(() => {
@@ -57,7 +57,7 @@ export default function ChatView({ token, userRole }: ChatViewProps) {
 
   const fetchHistory = async () => {
     try {
-      const res = await fetch(`${backendUrl}/api/history`, {
+      const res = await fetch(getApiUrl('/api/history'), {
         headers: { Authorization: `Bearer ${token}` },
       });
       if (res.ok) {
@@ -102,7 +102,7 @@ export default function ChatView({ token, userRole }: ChatViewProps) {
     setMessages((prev) => [...prev, tempUserMsg]);
 
     try {
-      const res = await fetch(`${backendUrl}/api/chat`, {
+      const res = await fetch(getApiUrl('/api/chat'), {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

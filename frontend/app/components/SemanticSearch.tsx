@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
+import { getApiUrl } from '../utils/api';
 
 interface SearchResult {
   chunk_id: number;
@@ -20,8 +21,6 @@ export default function SemanticSearch({ token }: SemanticSearchProps) {
   const [loading, setLoading] = useState(false);
   const [searched, setSearched] = useState(false);
 
-  const backendUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000';
-
   const handleSearch = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!query.trim() || loading) return;
@@ -30,7 +29,7 @@ export default function SemanticSearch({ token }: SemanticSearchProps) {
     setSearched(true);
 
     try {
-      const res = await fetch(`${backendUrl}/api/search?q=${encodeURIComponent(query.trim())}&limit=6`, {
+      const res = await fetch(getApiUrl(`/api/search?q=${encodeURIComponent(query.trim())}&limit=6`), {
         headers: { Authorization: `Bearer ${token}` },
       });
       if (res.ok) {

@@ -95,6 +95,7 @@ class ChatSessionResponse(BaseModel):
 
 # Auth Endpoints
 @app.post("/api/register", response_model=TokenResponse)
+@app.post("/register", response_model=TokenResponse)
 def register(req: RegisterRequest, db: Session = Depends(get_db)):
     role = req.role if req.role in ["Guest", "Registered User", "Admin"] else "Registered User"
         
@@ -121,6 +122,7 @@ def register(req: RegisterRequest, db: Session = Depends(get_db)):
     }
 
 @app.post("/api/login", response_model=TokenResponse)
+@app.post("/login", response_model=TokenResponse)
 def login(req: LoginRequest, db: Session = Depends(get_db)):
     # Support JSON request payload
     user = db.query(User).filter(User.username == req.username).first()

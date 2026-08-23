@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState, useEffect, useRef } from 'react';
+import { getApiUrl } from '../utils/api';
 
 interface Document {
   id: number;
@@ -24,7 +25,6 @@ export default function DocumentManager({ token, userRole }: DocumentManagerProp
   const [message, setMessage] = useState<{ text: string; type: 'success' | 'error' } | null>(null);
   
   const fileInputRef = useRef<HTMLInputElement>(null);
-  const backendUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000';
 
   useEffect(() => {
     fetchDocuments();
@@ -38,7 +38,7 @@ export default function DocumentManager({ token, userRole }: DocumentManagerProp
 
   const fetchDocuments = async () => {
     try {
-      const res = await fetch(`${backendUrl}/api/documents`, {
+      const res = await fetch(getApiUrl('/api/documents'), {
         headers: { Authorization: `Bearer ${token}` },
       });
       if (res.ok) {
@@ -120,7 +120,7 @@ export default function DocumentManager({ token, userRole }: DocumentManagerProp
         setProgress((prev) => (prev < 90 ? prev + 10 : prev));
       }, 300);
 
-      const res = await fetch(`${backendUrl}/api/upload`, {
+      const res = await fetch(getApiUrl('/api/upload'), {
         method: 'POST',
         headers: {
           Authorization: `Bearer ${token}`,
@@ -168,7 +168,7 @@ export default function DocumentManager({ token, userRole }: DocumentManagerProp
     }
 
     try {
-      const res = await fetch(`${backendUrl}/api/documents/${id}`, {
+      const res = await fetch(getApiUrl(`/api/documents/${id}`), {
         method: 'DELETE',
         headers: { Authorization: `Bearer ${token}` },
       });

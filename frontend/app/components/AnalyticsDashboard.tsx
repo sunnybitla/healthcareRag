@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
+import { getApiUrl } from '../utils/api';
 
 interface MetricSummary {
   total_documents: number;
@@ -43,7 +44,6 @@ interface AnalyticsDashboardProps {
 export default function AnalyticsDashboard({ token }: AnalyticsDashboardProps) {
   const [data, setData] = useState<AnalyticsData | null>(null);
   const [loading, setLoading] = useState(true);
-  const backendUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000';
 
   useEffect(() => {
     fetchAnalytics();
@@ -51,7 +51,7 @@ export default function AnalyticsDashboard({ token }: AnalyticsDashboardProps) {
 
   const fetchAnalytics = async () => {
     try {
-      const res = await fetch(`${backendUrl}/api/analytics`, {
+      const res = await fetch(getApiUrl('/api/analytics'), {
         headers: { Authorization: `Bearer ${token}` },
       });
       if (res.ok) {

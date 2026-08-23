@@ -5,6 +5,7 @@ import ChatView from './components/ChatView';
 import DocumentManager from './components/DocumentManager';
 import SemanticSearch from './components/SemanticSearch';
 import AnalyticsDashboard from './components/AnalyticsDashboard';
+import { getApiUrl } from './utils/api';
 
 interface User {
   username: string;
@@ -24,8 +25,6 @@ export default function Home() {
   const [roleInput, setRoleInput] = useState<'Guest' | 'Registered User' | 'Admin'>('Registered User');
   const [authError, setAuthError] = useState<string | null>(null);
   const [authLoading, setAuthLoading] = useState(false);
-
-  const backendUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000';
 
   // Load auth state from local storage on mount
   useEffect(() => {
@@ -72,17 +71,16 @@ export default function Home() {
   const checkApiStatus = async () => {
     try {
       // Use analytics endpoint to infer API status if admin, or general check
-      const res = await fetch(`${backendUrl}/api/documents`, {
+      const res = await fetch(getApiUrl('/api/documents'), {
         headers: { Authorization: `Bearer ${token}` },
       });
       if (res.ok) {
         // Just verify server connection is online
-        // Let's also check if they are admin to query actual mock status, or set to false/true based on fallback
         setApiStatus({ isMock: false, online: true });
         
         // If Admin, query detailed analytics
         if (user?.role === 'Admin') {
-          const resAnalytic = await fetch(`${backendUrl}/api/analytics`, {
+          const resAnalytic = await fetch(getApiUrl('/api/analytics'), {
             headers: { Authorization: `Bearer ${token}` },
           });
           if (resAnalytic.ok) {
@@ -112,7 +110,7 @@ export default function Home() {
       : { username: usernameInput.trim(), password: passwordInput.trim() };
 
     try {
-      const res = await fetch(`${backendUrl}${endpoint}`, {
+      const res = await fetch(getApiUrl(endpoint), {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload),
@@ -140,11 +138,15 @@ export default function Home() {
           setActiveTab('chat');
         }
       } else {
-        const errorData = await res.json();
-        setAuthError(errorData.detail || 'Authentication failed.');
+        if (res.status === 404) {
+          setAuthError('Backend endpoint not found (404). Please verify NEXT_PUBLIC_API_URL in Render matches your backend service URL.');
+        } else {
+          const errorData = await res.json().catch(() => ({ detail: 'Authentication failed.' }));
+          setAuthError(errorData.detail || 'Authentication failed.');
+        }
       }
     } catch (err) {
-      setAuthError('Connection error. Is the FastAPI backend running?');
+      setAuthError('Connection error. Is the FastAPI backend running and accessible?');
     } finally {
       setAuthLoading(false);
     }
