@@ -1,0 +1,39 @@
+services:
+  # -----------------------------------------------------------
+  # Backend API Service (FastAPI + Qdrant + Google Gemini RAG)
+  # -----------------------------------------------------------
+  - type: web
+    name: healthcare-rag-backend
+    runtime: python
+    buildCommand: pip install -r backend/requirements.txt
+    startCommand: uvicorn backend.main:app --host 0.0.0.0 --port $PORT
+    plan: free
+    autoDeploy: true
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.11.8
+      - key: GEMINI_API_KEY
+        sync: false
+      - key: JWT_SECRET_KEY
+        generateValue: true
+      - key: DATABASE_URL
+        value: sqlite:///./healthcare_rag.db
+      - key: QDRANT_PATH
+        value: ./qdrant_db
+
+  # -----------------------------------------------------------
+  # Frontend Service (Next.js App Router)
+  # -----------------------------------------------------------
+  - type: web
+    name: healthcare-rag-frontend
+    runtime: node
+    rootDir: frontend
+    buildCommand: npm install && npm run build
+    startCommand: npm start
+    plan: free
+    autoDeploy: true
+    envVars:
+      - key: NODE_VERSION
+        value: 20
+      - key: NEXT_PUBLIC_API_URL
+        sync: false
