@@ -1,0 +1,28 @@
+CLINICAL GUIDELINE: ACC/AHA 2024 CARDIOVASCULAR PREVENTION AND HYPERTENSION MANAGEMENT
+Version: 2024.1
+Target Audience: Primary Care Physicians, Cardiologists, Nurse Practitioners
+
+SECTION 1: HYPERTENSION DIAGNOSTIC CRITERIA & THERAPY
+Hypertension is categorized into four main stages based on office-based blood pressure (BP) measurements:
+1. Normal Blood Pressure: Systolic BP < 120 mmHg and Diastolic BP < 80 mmHg.
+2. Elevated Blood Pressure: Systolic BP 120-129 mmHg and Diastolic BP < 80 mmHg. Non-pharmacological lifestyle therapy is recommended.
+3. Stage 1 Hypertension: Systolic BP 130-139 mmHg or Diastolic BP 80-89 mmHg. Initiate pharmacological therapy if the patient has a 10-year ASCVD risk >= 10%. Otherwise, recommend 3-6 months of lifestyle modification.
+4. Stage 2 Hypertension: Systolic BP >= 140 mmHg or Diastolic BP >= 90 mmHg. Initiate dual-combination drug therapy (e.g., ACE inhibitor + CCB) immediately alongside lifestyle modifications.
+
+SECTION 2: ASPIRIN THERAPY FOR PRIMARY PREVENTION
+Aspirin (acetylsalicylic acid) should be prescribed with caution for primary prevention of cardiovascular disease due to bleeding risks:
+- Recommended Dose: Low-dose aspirin (81 mg daily) is recommended for primary prevention of ASCVD among select adults aged 40 to 59 years who have a 10-year ASCVD risk of 10% or greater and do not have an increased risk of bleeding.
+- Contraindications: Aspirin should NOT be initiated for primary prevention in adults aged 60 years or older. It is contraindicated in patients with active peptic ulcer disease, bleeding disorders, or severe renal impairment.
+
+SECTION 3: STATIN THERAPY FOR CHOLESTEROL MANAGEMENT
+Statin therapy is indicated for primary and secondary prevention of atherosclerotic cardiovascular events:
+- High-Intensity Statins (target LDL reduction >= 50%):
+  * Atorvastatin 40-80 mg daily.
+  * Rosuvastatin 20-40 mg daily.
+- Moderate-Intensity Statins (target LDL reduction 30% to 49%):
+  * Atorvastatin 10-20 mg daily.
+  * Rosuvastatin 5-10 mg daily.
+  * Simvastatin 20-40 mg daily.
+
+SECTION 4: MEDICAL DISCLAIMER
+DISCLAIMER: This information is derived from uploaded guidelines for educational/informational purposes only. It does not constitute medical diagnosis, treatment, or clinical decisions.
